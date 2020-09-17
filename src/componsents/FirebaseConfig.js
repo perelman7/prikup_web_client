@@ -12,5 +12,11 @@ const firebaseConfig = {
   
 firebase.initializeApp(firebaseConfig);
 
+async function getToken(){
+  return await auth.currentUser.getIdToken();
+}
+
 export const auth = firebase.auth();
 export const firebaseProvider = firebase;
+export {getToken};
+
