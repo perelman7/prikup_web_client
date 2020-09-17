@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import "../../App.css";
 import SignIn from "./SingIn";
 import Welcome from "../Welcome";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import RoomTable from "../rooms/RoomTable";
+import CreateOwnRoom from "../rooms/CreateOwnRoom";
 
 class GoogleAuthProvider extends Component{
 
@@ -21,6 +24,14 @@ class GoogleAuthProvider extends Component{
             ) : (
               <SignIn onSignIn={this.handleSignIn}/>
             )}
+            <BrowserRouter>
+              <Switch>
+                  <Route exact path="/room" component={RoomTable}/>
+                  <Route exact path="/createRoom" component={CreateOwnRoom}/>
+                  <Route exact path="/" component={RoomTable}/>
+                  <Route component={RoomTable}/>
+              </Switch>
+              </BrowserRouter>
           </div>
         )
       }
