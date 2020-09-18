@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import RoomService from "./RoomService";
-import {} from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 
 class RoomTable extends Component {
@@ -58,8 +57,8 @@ class RoomTable extends Component {
     render() {
         return (
           <div>
-              <h1>Rooms</h1>
-              <table id='students'>
+              <h1>Существующие комнаты</h1>
+              <table id='rooms'>
                 <thead>
                   <tr>
                     <td>Тип колоды</td>

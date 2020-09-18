@@ -6,12 +6,11 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
 
-class Welcome extends Component{ 
+class NavMenu extends Component{ 
 
   state = { 
     currentUser: null,
   }
-
 
   componentDidMount = async () => {
     const userService = new UserService();
@@ -30,7 +29,7 @@ class Welcome extends Component{
               <Nav className="mr-auto">
                 <Nav.Link href="/room">Активные комнаты</Nav.Link>
                 <Nav.Link href="/createRoom">Создать свою комнату</Nav.Link>
-                <Nav.Link href="/room">Настройки</Nav.Link>
+                <Nav.Link href="/settings">Настройки</Nav.Link>
                 
                 <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -55,4 +54,4 @@ class Welcome extends Component{
       }
 }
 
-export default Welcome;
+export default NavMenu;
