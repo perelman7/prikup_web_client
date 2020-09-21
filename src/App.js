@@ -4,6 +4,8 @@ import Menu from "./componsents/Main"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SingIn from "./componsents/auth/SingIn";
 
+import {BrowserRouter as Router } from "react-router-dom";
+
 class App extends Component {
 
   state = { 
@@ -17,10 +19,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.state.isSignedIn ? (<Menu/>) : ( <SingIn onSignIn={this.handleSignIn}/> ) }
+        {this.state.isSignedIn ? (<Router><Menu/></Router>) : ( <SingIn onSignIn={this.handleSignIn}/> ) }
       </div>
     )
   }
 }
 
-export default App
+export default App;

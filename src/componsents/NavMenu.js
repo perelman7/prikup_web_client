@@ -5,13 +5,18 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
+import RoomListener from "./ws/RoomListener";
 
 class NavMenu extends Component{ 
 
-  state = { 
-    currentUser: null,
-  }
+  constructor(props){
+    super(props);
 
+    this.state = { 
+      currentUser: null,
+    }
+  }
+  
   componentDidMount = async () => {
     const userService = new UserService();
     const token = await getToken();
@@ -27,9 +32,10 @@ class NavMenu extends Component{
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
-                <Nav.Link href="/room">Активные комнаты</Nav.Link>
+                <Nav.Link href="/roomTable">Активные комнаты</Nav.Link>
                 <Nav.Link href="/createRoom">Создать свою комнату</Nav.Link>
                 <Nav.Link href="/settings">Настройки</Nav.Link>
+                <Nav.Link href="/room">Выбранная комната</Nav.Link>
                 
                 <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -41,11 +47,13 @@ class NavMenu extends Component{
               </Nav>
               <Form inline>
                 <button onClick={() => firebaseProvider.auth().signOut()}>Sign out!</button>
-                    <h1>{user != null ? user.nickname : null}</h1>
-                    <img
-                      alt="profile logo"
-                      src={user != null ? user.avatarId : ""}
-                    />
+                {user != null 
+                ? (<div>
+                    <h1>{user.nickname}</h1>
+                    <img alt="profile logo" src={user.avatarId} />
+                    <RoomListener/>
+                </div>) 
+                : (<div></div>)}
               </Form>
             </Navbar.Collapse>
           </Navbar>

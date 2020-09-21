@@ -52,8 +52,8 @@ class RoomTable extends Component {
     }else{
       return <tr></tr>
     }
-
  }
+ 
     render() {
         return (
           <div>

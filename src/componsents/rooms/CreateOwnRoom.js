@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import RoomService from "./RoomService";
-import {} from "react-bootstrap/Form";
 
 class CreateOwnRoom extends Component {
 
@@ -55,16 +54,14 @@ class CreateOwnRoom extends Component {
       console.log("Submit create Room");
       console.log("State:",JSON.stringify(this.state))
       const roomService = new RoomService();
-      const respStatus = roomService.createRoom(this.state);
-      console.log("Create room: ", respStatus)
-      event.preventDefault();
+      roomService.createRoom(this.state);
   }
 
     render() {
         return (
           <div>
               <h1>Создать свою комнату</h1>
-              <form onSubmit={this.handleSubmit}>
+              <form>
                 <select value={this.state.buildType} onChange={this.handleChangeBuildType}>
                     <option value="CUSTOM">Клиентский</option>
                     <option value="DEFAULT">По умолчанию</option>
@@ -83,8 +80,9 @@ class CreateOwnRoom extends Component {
                 </select>
                 <input type="number" value={this.state.maxPlayers} onChange={this.handleChangeMaxPlayers}/>
                 <input type="number" value={this.state.bet} onChange={this.handleChangeBet}/>
-                <input type="submit" value="Создать" />
+                
               </form>
+              <button onClick={this.handleSubmit}>Создать</button>
           </div>
         )
       }
