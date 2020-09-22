@@ -13,7 +13,8 @@ class Room extends Component {
     const currentRoom = window.sessionStorage.getItem("selectedRoom");
     console.log("CURRENT ROOM: ", currentRoom);
     if(currentRoom != null){
-      this.setState({room: JSON.parse(currentRoom)});
+      const roomObj = JSON.parse(currentRoom);
+      this.setState({room: roomObj});
     }
   }
 

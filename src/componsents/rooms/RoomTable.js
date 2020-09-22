@@ -25,21 +25,20 @@ class RoomTable extends Component {
     event.preventDefault();
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
       const roomService = new RoomService();
-      const list = await roomService.getRooms();
-      console.log("LIST ROOMS", list)
-      this.setState({listRooms: list});
+      roomService.getRooms().then(list => this.setState({listRooms: list}));
   }
 
   renderTableData() {
     const rooms = this.state.listRooms;
     console.log("rooms: ", rooms);
     if(rooms){
+      const currentId = this.state.roomId;
       return rooms.map((room, index) => {
         const { id, cardCountType, dealCardsType, maxPlayers, users, withPenalty, bet } = room
         return (
-            <tr key={id}>
+            <tr key={id} style={{backgroundColor: currentId === id ? '#cccccc' : '',}}>
               <td>{cardCountType}</td>
               <td>{dealCardsType}</td>
               <td>{users.length + " из " + maxPlayers}</td>

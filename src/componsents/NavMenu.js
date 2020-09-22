@@ -3,9 +3,10 @@ import UserService from "./auth/UserService"
 import {getToken, firebaseProvider} from "./FirebaseConfig";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
 import RoomListener from "./ws/RoomListener";
+import BoardListener from "./ws/BoardListener";
+import CardService from "./card/CardService";
 
 class NavMenu extends Component{ 
 
@@ -17,11 +18,13 @@ class NavMenu extends Component{
     }
   }
   
-  componentDidMount = async () => {
+  componentDidMount = () => {
     const userService = new UserService();
-    const token = await getToken();
-    const user = await userService.initCurrentUser(token);
-    this.setState({currentUser: user});
+    getToken().then(token => {
+      userService.initCurrentUser(token).then(user => this.setState({currentUser: user}));
+      const cardService = new CardService();
+      cardService.initCardDeck(token);
+    })
   }
     render() {
       const user = this.state.currentUser;
@@ -36,22 +39,16 @@ class NavMenu extends Component{
                 <Nav.Link href="/createRoom">Создать свою комнату</Nav.Link>
                 <Nav.Link href="/settings">Настройки</Nav.Link>
                 <Nav.Link href="/room">Выбранная комната</Nav.Link>
-                
-                <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                </NavDropdown>
+                <Nav.Link href="/board">Текущая игра</Nav.Link>
               </Nav>
               <Form inline>
                 <button onClick={() => firebaseProvider.auth().signOut()}>Sign out!</button>
                 {user != null 
                 ? (<div>
                     <h1>{user.nickname}</h1>
-                    <img alt="profile logo" src={user.avatarId} />
+                    <img style={{height:"80px"}} alt="profile logo" src={user.avatarId} />
                     <RoomListener/>
+                    <BoardListener/>
                 </div>) 
                 : (<div></div>)}
               </Form>

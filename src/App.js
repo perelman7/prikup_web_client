@@ -4,22 +4,28 @@ import Menu from "./componsents/Main"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SingIn from "./componsents/auth/SingIn";
 
-import {BrowserRouter as Router } from "react-router-dom";
-
 class App extends Component {
 
-  state = { 
-    isSignedIn: false,
-  } 
+  constructor(props){
+    super(props);
+    this.state = { 
+      isSignedIn: false,
+    } 
 
-  handleSignIn = (isSigned) => {
+    this.handleSignIn = this.handleSignIn.bind(this);
+  }
+
+
+  handleSignIn(isSigned){
+    console.log("IS sign in result:", isSigned)
     this.setState({isSignedIn: isSigned});
   }
 
   render() {
+    console.log("IS sign in:", this.state.isSignedIn)
     return (
       <div className="App">
-        {this.state.isSignedIn ? (<Router><Menu/></Router>) : ( <SingIn onSignIn={this.handleSignIn}/> ) }
+        {this.state.isSignedIn ? (<Menu/>) : ( <SingIn onSignIn={this.handleSignIn}/> ) }
       </div>
     )
   }

@@ -16,10 +16,13 @@ class SingIn extends Component{
       }
     }
 
-    componentDidMount = async () => {
+    componentDidMount = () => {
       const userService = new UserService();
         auth.onAuthStateChanged(user => {
-          this.props.onSignIn(!!user);
+          let isSignIn = (user !== null);
+          console.log("USER:", user, isSignIn);
+          
+          this.props.onSignIn(isSignIn);
           if(user != null){
             console.log("USER IS LOG IN");
             user.getIdToken().then(token => {

@@ -5,7 +5,7 @@ import UserService from "../auth/UserService";
 
 let stompClient = null;
 
-class RoomListener extends Component{
+class BoardListener extends Component{
 
     constructor(props){
         super(props);
@@ -23,27 +23,25 @@ class RoomListener extends Component{
 
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
-            console.log('Connected: ' + frame);
-            
-            let url = '/room/state/';
+
+            let url = '/board/state';
             if(user != null){
-                url = '/room/state/' + user.id;
+                url = '/board/state/' + user.id;
             }
-            
             console.log('URL: ', url);
             stompClient.subscribe(url, function (greeting) {
-                const body = JSON.parse(greeting.body);
-                console.log("Room: ", body);
+                const body = greeting.body;
+                console.log("Board: ", body);
                 redirect(body);
             });
         });
     }
 
-    handleRedirect(newRoom){
-        const json = JSON.stringify(newRoom);
-        console.log("JSON ROOM:", json);
-        window.location.href = '/room';
-        window.sessionStorage.setItem('selectedRoom', json);
+    handleRedirect(newBoard){
+        // const json = JSON.stringify(newBoard);
+        window.location.href = '/board';
+        window.sessionStorage.setItem('selectedBoard', newBoard);
+        window.sessionStorage.removeItem('selectedRoom');
     }
 
     componentDidMount = () => {
@@ -62,4 +60,4 @@ class RoomListener extends Component{
     }
 }
 
-export default RoomListener;
+export default BoardListener;

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import "../App.css";
 import NavMenu from "./NavMenu";
-import { withRouter, BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import RoomTable from "./rooms/RoomTable";
 import CreateOwnRoom from "./rooms/CreateOwnRoom";
 import Settings from "./settings/Settings";
 import Room from "./rooms/Room";
+import Board from "./board/Board";
 
 class Main extends Component{
 
@@ -18,7 +19,8 @@ class Main extends Component{
                                   <Route exact path="/roomTable" component={RoomTable}/>
                                   <Route exact path="/createRoom" component={CreateOwnRoom}/>
                                   <Route exact path="/settings" component={Settings}/>
-                                  <Route exact path="/room" render={(props) => <Room {...props}/>}/>
+                                  <Route exact path="/room" component={Room}/>
+                                  <Route exact path="/board" component={Board}/>
                                   <Route exact path="/" component={RoomTable}/>
                                   <Route component={RoomTable}/>
                               </Switch>
@@ -30,4 +32,4 @@ class Main extends Component{
 
 }
 
-export default withRouter(Main);
+export default Main;
