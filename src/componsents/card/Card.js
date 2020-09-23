@@ -9,7 +9,7 @@ import "../../style/components/card.scss";
 
 const Card = (props) => {
 
-  const { cardSuit, cardType, front } = props;
+  const { cardId, cardSuit, cardType, front } = props;
 
   const getCardSymbol = (cardSuit) => {
     let symbol;
@@ -48,7 +48,7 @@ const Card = (props) => {
     const cardSymbol = getCardSymbol(cardSuit);
 
     return (
-      <div className="card-container" style={{ color: `${resColor}` }}>
+      <div id={cardId} className="card-container" style={{ color: `${resColor}` }}>
         <div  style={{ position: "absolute", top: 5, left: 5 }}>
           <div style={{ maxWidth: 20 }}>{cardType}</div>
           <img src={cardSymbol} alt="suit-symbol" style={{ maxWidth: 20 }}/>
