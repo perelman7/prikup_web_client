@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import RoomService from "./RoomService";
-import Nav from "react-bootstrap/Nav";
+
+import "../../style/components/roomtable.css";
 
 class RoomTable extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       listRooms: [],
       roomId: null,
     }
@@ -16,7 +17,7 @@ class RoomTable extends Component {
 
   handleChange(event) {
     console.log("SELECT: ", event.target.id)
-    this.setState({roomId: event.target.id});
+    this.setState({ roomId: event.target.id });
   }
 
   handleSubmit(event) {
@@ -26,57 +27,57 @@ class RoomTable extends Component {
   }
 
   componentDidMount = () => {
-      const roomService = new RoomService();
-      roomService.getRooms().then(list => this.setState({listRooms: list}));
+    const roomService = new RoomService();
+    roomService.getRooms().then(list => this.setState({ listRooms: list }));
   }
 
   renderTableData() {
     const rooms = this.state.listRooms;
     console.log("rooms: ", rooms);
-    if(rooms){
+    if (rooms) {
       const currentId = this.state.roomId;
       return rooms.map((room, index) => {
         const { id, cardCountType, dealCardsType, maxPlayers, users, withPenalty, bet } = room
         return (
-            <tr key={id} style={{backgroundColor: currentId === id ? '#cccccc' : '',}}>
-              <td>{cardCountType}</td>
-              <td>{dealCardsType}</td>
-              <td>{users.length + " из " + maxPlayers}</td>
-              <td>{bet}</td>
-              <td>{withPenalty ? "Да" : "Нет"}</td>
-              <td><button id={id} onClick={this.handleChange}>Выбрать</button></td>
-           </tr>
+          <tr key={id} style={{ backgroundColor: currentId === id ? '#cccccc' : '', }}>
+            <td>{cardCountType}</td>
+            <td>{dealCardsType}</td>
+            <td>{users.length + " из " + maxPlayers}</td>
+            <td>{bet}</td>
+            <td>{withPenalty ? "Да" : "Нет"}</td>
+            <td><button className="select_button" id={id} onClick={this.handleChange}>Выбрать</button></td>
+          </tr>
         )
-     })
-    }else{
+      })
+    } else {
       return <tr></tr>
     }
- }
- 
-    render() {
-        return (
-          <div>
-              <h1>Существующие комнаты</h1>
-              <table id='rooms'>
-                <thead>
-                  <tr>
-                    <td>Тип колоды</td>
-                    <td>Тип раздачи</td>
-                    <td>Кол-во играков</td>
-                    <td>Ставка</td>
-                    <td>С наказаниями</td>
-                    <td></td>
-                  </tr>
-                </thead>
-               <tbody >
-                {this.renderTableData()}
-               </tbody>
-            </table>
-              <button onClick={this.handleSubmit}>Начать игру</button>
-              <Nav.Link href="/createRoom">Создать свою комнату</Nav.Link>
-          </div>
-        )
-      }
+  }
+
+  render() {
+    return (
+      <div className="room_table_container">
+        <div className="room_table_header">Существующие комнаты</div>
+        <table id='rooms'>
+          <thead>
+            <tr>
+              <th>Тип колоды</th>
+              <th>Тип раздачи</th>
+              <th>Кол-во играков</th>
+              <th>Ставка</th>
+              <th>С наказаниями</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody >
+            {this.renderTableData()}
+          </tbody>
+        </table>
+        <button className="action_button" onClick={this.handleSubmit}>Начать игру</button>
+        <a className="action_button" href="/createRoom">Создать свою комнату</a>
+      </div>
+    )
+  }
 }
 
 export default RoomTable;

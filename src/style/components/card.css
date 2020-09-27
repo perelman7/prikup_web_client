@@ -1,0 +1,12 @@
+.card-container {
+  height: 200px;
+  width: 140px;
+  background-color: white;
+  background-size: cover;
+  position: relative;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-left: -15px;
+  font-size: 20px;
+  text-align: center;
+}

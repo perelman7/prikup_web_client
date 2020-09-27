@@ -1,62 +1,60 @@
 import React, { Component } from "react";
 import UserService from "./auth/UserService"
-import {getToken, firebaseProvider} from "./FirebaseConfig";
-import Form from "react-bootstrap/Form";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import { getToken, firebaseProvider } from "./FirebaseConfig";
 import RoomListener from "./ws/RoomListener";
 import BoardListener from "./ws/BoardListener";
 import CardService from "./card/CardService";
 
-class NavMenu extends Component{ 
+import "../style/components/navmenu.css";
 
-  constructor(props){
+class NavMenu extends Component {
+
+  constructor(props) {
     super(props);
 
-    this.state = { 
+    this.state = {
       currentUser: null,
     }
   }
-  
+
   componentDidMount = () => {
     const userService = new UserService();
     getToken().then(token => {
-      userService.initCurrentUser(token).then(user => this.setState({currentUser: user}));
+      userService.initCurrentUser(token).then(user => this.setState({ currentUser: user }));
       const cardService = new CardService();
       cardService.initCardDeck(token);
     })
   }
-    render() {
-      const user = this.state.currentUser;
-        return (
-          <div className="App">
-            <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="/">Прикуп</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="mr-auto">
-                <Nav.Link href="/roomTable">Активные комнаты</Nav.Link>
-                <Nav.Link href="/createRoom">Создать свою комнату</Nav.Link>
-                <Nav.Link href="/settings">Настройки</Nav.Link>
-                <Nav.Link href="/room">Выбранная комната</Nav.Link>
-                <Nav.Link href="/board">Текущая игра</Nav.Link>
-              </Nav>
-              <Form inline>
-                <button onClick={() => firebaseProvider.auth().signOut()}>Sign out!</button>
-                {user != null 
-                ? (<div>
-                    <h1>{user.nickname}</h1>
-                    <img style={{height:"80px"}} alt="profile logo" src={user.avatarId} />
-                    <RoomListener/>
-                    <BoardListener/>
-                </div>) 
-                : (<div></div>)}
-              </Form>
-            </Navbar.Collapse>
-          </Navbar>
-          </div>
-        )
-      }
+  render() {
+    const user = this.state.currentUser;
+    return (
+      <div className="nav_menu">
+        <div className="app_name_block">
+          <a className="app_name" href="/">Прикуп</a>
+        </div>
+        <div className="tabs">
+          <a className="link" href="/roomTable">Активные комнаты</a>
+          <a className="link" href="/createRoom">Создать свою комнату</a>
+          <a className="link" href="/settings">Настройки</a>
+          <a className="link" href="/room">Выбранная комната</a>
+          <a className="link" href="/board">Текущая игра</a>
+        </div>
+        <div>
+          {user != null
+            ? (<div className="user_info">
+              <div className="username">{user.nickname}</div>
+              <img className="logo_name" alt="profile logo" src={user.avatarId} />
+              <RoomListener />
+              <BoardListener />
+            </div>)
+            : (<div></div>)}
+        </div>
+        <div className="sign_out_block">
+          <button className="sign_out" onClick={() => firebaseProvider.auth().signOut()}>Sign out</button>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default NavMenu;

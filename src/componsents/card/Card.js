@@ -5,7 +5,7 @@ import diamond from "../../style/images/diamond.png";
 import club from "../../style/images/club.png";
 import spade from "../../style/images/spade.png";
 
-import "../../style/components/card.scss";
+import "../../style/components/card.css";
 
 const Card = (props) => {
 

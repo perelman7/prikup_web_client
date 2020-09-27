@@ -1,0 +1,80 @@
+.nav_menu{
+    /* border: 10px solid #000000; */
+    border-bottom: 4px solid #000000;
+    display: flex;
+    justify-content:space-around;
+    padding: 5px;
+    max-height: 150px;
+    background-color: rgb(249, 251, 223);
+}
+.nav_menu > div{
+    /* border:  10px solid #09e02d; */
+}
+
+.app_name_block{
+    width: 10%;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 190%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.app_name{
+    color: black;
+}
+.app_name:hover{
+    color: black;
+}
+
+.tabs{
+    width: 70%;
+    display: flex;
+    align-items: center;
+}
+
+.link{
+    margin-left: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 140%;
+    color: black;
+}
+
+.link::after{
+    content: " | ";
+}
+
+.user_info{
+    display: flex;
+}
+
+.username{
+    margin: 5px;
+    font-size: 120%;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.logo_name{
+    margin: 3px;
+    border-radius: 50%;
+    height: 80px;
+}
+
+.sign_out_block{
+    width: 7%;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 150%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 4px solid #000000;
+}
+
+.sign_out{
+    background-color: rgb(33, 49, 87);
+    color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 6px;
+    margin: 5px;
+}
