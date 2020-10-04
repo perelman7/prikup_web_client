@@ -44,8 +44,13 @@
     content: " | ";
 }
 
+.full_user_info{
+    display: flex;
+}
+
 .user_info{
     display: flex;
+    flex-direction: column;
 }
 
 .username{
@@ -57,11 +62,11 @@
 .logo_name{
     margin: 3px;
     border-radius: 50%;
-    height: 80px;
+    height: 60px;
 }
 
 .sign_out_block{
-    width: 7%;
+    width: 14%;
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 150%;
     display: flex;

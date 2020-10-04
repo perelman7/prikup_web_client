@@ -1,18 +1,23 @@
 import axios from 'axios';
 import https from 'https';
-import {getToken} from "../FirebaseConfig"
+import {getToken} from "../FirebaseConfig";
+import {backendUrl} from '../constants/Constants';
 
 class RoomService {
     
     async getRooms(){
         let listRooms = [];
         const token = getToken();
+        
+        const url = backendUrl + `/api/room?limit=10`;
+        console.log("ROOM GET URL: ", url);
         if(token){
             const authToken = 'Bearer ' + token;
             const agent = new https.Agent({  
                 rejectUnauthorized: false
             });
-            const response = await axios.get(`http://localhost:8080/room?limit=10`, 
+            
+            const response = await axios.get(url, 
             { headers: { Authorization: authToken}},
             { httpsAgent: agent });
 
@@ -25,12 +30,14 @@ class RoomService {
     async enterToRoom(roomId){
         let status = null;
         const token = await getToken();
+        const url = backendUrl + `/api/room/enter?roomId=` + roomId;
+        console.log("ROOM ENTER URL: ", url);
         if(token){
             const authToken = 'Bearer ' + token;
             const agent = new https.Agent({  
                 rejectUnauthorized: false
             });
-            const response = await axios.post(`http://localhost:8080/room/enter?roomId=` + roomId, null,
+            const response = await axios.post(url, null,
             { headers: { Authorization: authToken}},
             { httpsAgent: agent });
 
@@ -43,12 +50,15 @@ class RoomService {
     async createRoom(requestModel){
         let respStatus = null;
         const token = await getToken();
+
+        const url = backendUrl + "/api/room";
+        console.log("ROOM create URL: ", url);
         if(token){
             const authToken = 'Bearer ' + token;
             const agent = new https.Agent({  
                 rejectUnauthorized: false
             });
-            const response = await axios.post(`http://localhost:8080/room`, JSON.stringify(requestModel),
+            const response = await axios.post(url, JSON.stringify(requestModel),
             { 
                 headers: { 
                     Authorization: authToken,

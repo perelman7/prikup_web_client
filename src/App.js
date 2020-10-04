@@ -5,26 +5,21 @@ import SingIn from "./componsents/auth/SingIn";
 
 class App extends Component {
 
-  constructor(props){
-    super(props);
+  constructor(){
+    super();
     this.state = { 
       isSignedIn: false,
-    } 
-
-    this.handleSignIn = this.handleSignIn.bind(this);
+    }
   }
 
-
   handleSignIn(isSigned){
-    console.log("IS sign in result:", isSigned)
     this.setState({isSignedIn: isSigned});
   }
 
   render() {
-    console.log("IS sign in:", this.state.isSignedIn)
     return (
       <div className="App">
-        {this.state.isSignedIn ? (<Menu/>) : ( <SingIn onSignIn={this.handleSignIn}/> ) }
+        {this.state.isSignedIn === true ? (<Menu/>) : ( <SingIn onSignIn={this.handleSignIn.bind(this)}/> ) }
       </div>
     )
   }

@@ -1,0 +1,1 @@
+export const backendUrl = "https://gateway-prikup.herokuapp.com";

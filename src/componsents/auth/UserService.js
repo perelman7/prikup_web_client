@@ -1,5 +1,6 @@
 import axios from 'axios';
 import https from 'https';
+import {backendUrl} from '../constants/Constants';
 
 class UserService {
 
@@ -11,7 +12,8 @@ class UserService {
             const agent = new https.Agent({  
                 rejectUnauthorized: false
             });
-            const response = await axios.get(`http://localhost:8080/user`, 
+            const url = backendUrl + `/user`;
+            const response = await axios.get(url, 
             { headers: { Authorization: authToken}},
             { httpsAgent: agent });
 

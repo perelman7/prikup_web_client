@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { auth, firebaseProvider } from "../FirebaseConfig";
 import "../../App.css";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import UserService from "./UserService";
 
 import "../../style/components/signin.css";
 
@@ -14,22 +13,17 @@ class SingIn extends Component {
       firebaseProvider.auth.GoogleAuthProvider.PROVIDER_ID,
     ],
     callbacks: {
-      signInSuccess: () => false
+      signInSuccessWithAuthResult: () => false
     }
   }
 
   componentDidMount = () => {
-    const userService = new UserService();
     auth.onAuthStateChanged(user => {
       let isSignIn = (user !== null);
-      console.log("USER:", user, isSignIn);
 
       this.props.onSignIn(isSignIn);
       if (user != null) {
         console.log("USER IS LOG IN");
-        user.getIdToken().then(token => {
-          userService.initCurrentUser(token);
-        });
       } else {
         console.log("USER IS LOG OUT");
       }

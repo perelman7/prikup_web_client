@@ -8,27 +8,27 @@ import Settings from "./settings/Settings";
 import Room from "./rooms/Room";
 import Board from "./board/Board";
 
-class Main extends Component{
+class Main extends Component {
 
-    render() {
-        return (
-          <div className="App">
-                          <NavMenu/>
-                            <Router>
-                              <Switch>
-                                  <Route exact path="/roomTable" component={RoomTable}/>
-                                  <Route exact path="/createRoom" component={CreateOwnRoom}/>
-                                  <Route exact path="/settings" component={Settings}/>
-                                  <Route exact path="/room" component={Room}/>
-                                  <Route exact path="/board" component={Board}/>
-                                  <Route exact path="/" component={RoomTable}/>
-                                  <Route component={RoomTable}/>
-                              </Switch>
-                            </Router>
+  render() {
+    return (
+      <div className="App">
+        <NavMenu />
+        <Router>
+          <Switch>
+            <Route exact path="/roomTable" component={RoomTable} />
+            <Route exact path="/createRoom" component={CreateOwnRoom} />
+            <Route exact path="/settings" component={Settings} />
+            <Route exact path="/room" component={Room} />
+            <Route exact path="/board" component={Board} />
+            <Route exact path="/" component={RoomTable} />
+            <Route component={RoomTable} />
+          </Switch>
+        </Router>
 
-          </div>
-        )
-      }
+      </div>
+    )
+  }
 
 }
 

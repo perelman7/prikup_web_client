@@ -1,17 +1,18 @@
 import React, { Component } from "react";
-import {auth} from "../FirebaseConfig";
-import Card from "../card/Card";
+import { auth } from "../FirebaseConfig";
+import Card, { getCardSymbol } from "../card/Card";
 import BoardService from "./BoardService";
+import '../../style/components/board.css';
 
 const actions = [
-  'PUSH', 
+  'PUSH',
   'GET',
   'LEAVE',
 ]
 
 class Board extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       board: null,
@@ -22,17 +23,17 @@ class Board extends Component {
     this.getCard = this.getCard.bind(this);
   }
 
-  selectCard(event, card){
-      console.log("SELECTED CARD: ", card);
-      this.setState({selectedCard: card});
+  selectCard(event, card) {
+    console.log("SELECTED CARD: ", card);
+    this.setState({ selectedCard: card });
   }
 
-  getCard(event){
+  getCard(event) {
     const activeCards = this.state.board.cardsStack;
     console.log("BOOO:", this.state.board)
-    if(activeCards !== null && activeCards.length > 0){
+    if (activeCards !== null && activeCards.length > 0) {
 
-     
+
       const lastCard = activeCards[0];
       let card = this.getCardById(lastCard.cardId);
       alert(card.id + " : " + card.cardSuit + " : " + card.cardType);
@@ -48,7 +49,7 @@ class Board extends Component {
     }
   }
 
-  pushCard(event){
+  pushCard(event) {
     const actionModel = {
       boardId: this.state.board.id,
       cardId: this.state.selectedCard.id,
@@ -63,24 +64,23 @@ class Board extends Component {
   componentDidMount = () => {
     const currentBoard = window.sessionStorage.getItem("selectedBoard");
     const cardDeck = window.sessionStorage.getItem("cardDeck");
-    if(currentBoard != null && cardDeck != null){
+    if (currentBoard != null && cardDeck != null) {
       let board = JSON.parse(currentBoard);
       let deck = JSON.parse(cardDeck);
-      this.setState({board: board, cardDeck: deck});
+      this.setState({ board: board, cardDeck: deck });
     }
   }
 
-  getUserCards(){
+  getUserCards(userId) {
     let result = [];
     const boardDes = this.state.board;
-    if(boardDes !== null){
+    if (boardDes !== null) {
       const userCardsIds = boardDes.userCards;
-      const userId = auth.currentUser.uid;
       const currentUserCards = userCardsIds.filter(element => element.userId === userId);
-      if(currentUserCards !== null && currentUserCards.length > 0){
+      if (currentUserCards !== null && currentUserCards.length > 0) {
         const listCardIds = currentUserCards[0].userCards;
         const cardDeck = this.state.cardDeck;
-        if(cardDeck !== null){
+        if (cardDeck !== null) {
           result = cardDeck.filter(e => listCardIds.includes(e.id));
         }
       }
@@ -88,17 +88,16 @@ class Board extends Component {
     return result;
   }
 
-  getPinki(){
+  getPinki(userId) {
     let result = [];
     const boardDes = this.state.board;
-    if(boardDes !== null){
+    if (boardDes !== null) {
       const userCardsIds = boardDes.userCards;
-      const userId = auth.currentUser.uid;
       const currentUserCards = userCardsIds.filter(element => element.userId === userId);
-      if(currentUserCards !== null && currentUserCards.length > 0){
+      if (currentUserCards !== null && currentUserCards.length > 0) {
         const listCardIds = currentUserCards[0].pinki;
         const cardDeck = this.state.cardDeck;
-        if(cardDeck !== null){
+        if (cardDeck !== null) {
           result = cardDeck.filter(e => listCardIds.includes(e.id));
         }
       }
@@ -106,14 +105,14 @@ class Board extends Component {
     return result;
   }
 
-  getActiveCards(){
+  getActiveCards() {
     let result = [];
     const boardDes = this.state.board;
-    if(boardDes !== null){
+    if (boardDes !== null) {
       const cardStack = boardDes.cardsStack;
-      if(cardStack !== null && cardStack.length > 0){
+      if (cardStack !== null && cardStack.length > 0) {
         const cardDeck = this.state.cardDeck;
-        if(cardDeck !== null){
+        if (cardDeck !== null) {
           result = cardDeck.filter(e => cardStack.some(elem => elem.cardId === e.id));
           console.log('Active cards:', result);
         }
@@ -122,91 +121,111 @@ class Board extends Component {
     return result;
   }
 
-  getCardById(cardId){
+  getCardById(cardId) {
     console.log("INPUT: ", cardId)
     let result = {};
-    if(cardId !== null){
+    if (cardId !== null) {
       const cardDeck = this.state.cardDeck;
       const currentCard = cardDeck.filter(e => e.id === cardId);
-      if(currentCard !== null && currentCard.length > 0){
+      if (currentCard !== null && currentCard.length > 0) {
         result = currentCard[0];
       }
     }
     return result;
   }
 
-  getUserHowsAction(board){
+  getUserHowsAction(userId) {
     let user = null;
-    if(board !== null){
-        const currentUser = board.users.filter(e => e.id === board.userQueue);
-        if(currentUser !== null && currentUser.length > 0){
-          user = currentUser[0];
-        }
-        
+    const board = this.state.board;
+    if (board !== null) {
+      const currentUser = board.users.filter(e => e.id === userId);
+      if (currentUser !== null && currentUser.length > 0) {
+        user = currentUser[0];
+      }
+
     }
     return user;
   }
 
 
-    render() {
-      let currentCards = this.getUserCards();
-      let penki = this.getPinki();
-      const board = this.state.board;
-      const user = this.getUserHowsAction(board);
-      console.log("USER RES: ", user)
+  render() {
+    let currentCards = this.getUserCards(auth.currentUser.uid);
+    let penki = this.getPinki(auth.currentUser.uid);
+    const board = this.state.board;
+    let user = null;
+    let users = [];
+    let userQueue = null;
+    if (board !== null) {
+      userQueue = board.userQueue;
+      user = board.users.find(u => u.id === auth.currentUser.uid);
+      users = board.users.filter(u => u.id !== auth.currentUser.uid);
+      console.log("TEST", users);
+      console.log("TEST2", board.users);
+    }
 
-        return (
-          <div>
-              <h1><span className="font-italic">Игровой стол</span></h1>
-        <h1>{user !== null ? "Сейчас ходит: " + user.nickname + " : " + user.id : ""}</h1>
-              <div style={{ width: "100%" }}>
-          {currentCards !== null && currentCards.length > 0 ? (
-            <div>
-                <h1>Активные карты</h1>
-                <div style={{ display: "flex", justifyContent: "center", margin: "40px auto 0px 180px", height: 282 }}>
-                {board && board.cardsStack && board.cardsStack.map((cardId, index) => {
-                  console.log("Card id: ", cardId.cardId);
-                  let card = this.getCardById(cardId.cardId);
-                  console.log("CCC CARD: ", card)
-                    return (
-                    <div className="animated slideInDown" key={index}>
-                        <Card cardId={card.id} cardSuit={card.cardSuit} cardType={card.cardType} front={true}/>
-                    </div>
-                    ); 
-                })}
-                  </div>
-              <h1>Карты на руках {this.state.selectedCard !== null ? ", Выбраная карта: " + this.state.selectedCard.cardSuit + " : " + this.state.selectedCard.cardType : ''}</h1>
-                <div style={{ display: "flex", justifyContent: "center", margin: "40px auto 0px 180px", height: 282 }}>
-                {currentCards && currentCards.map((card, index) => {
-                    return (
-                    <div onClick={(e) => this.selectCard(e, card)} className="animated slideInDown" key={index}>
-                        <Card cardId={card.id} cardSuit={card.cardSuit} cardType={card.cardType} front={true}/>
-                    </div>
-                    ); 
-                })}
-                  </div>
-                  <div style={{ margin: "40px auto", textAlign: "center" }}>
-                      <button id={actions[0]} onClick={this.pushCard.bind(this)}>Положить карту</button>
-                      <button id={actions[1]} onClick={this.getCard.bind(this)}>Взять карту</button>
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "center", margin: "40px auto 0px 180px" }}>
-                  <h1>Пиньки</h1>
-                  {penki && penki.map((card, index) => {
-                      return (
-                      <div className="animated slideInUp" key={index}>
-                          <Card cardId={card.id} cardSuit={card.cardSuit} cardType={card.cardType} front={false}/>
-                      </div>
-                      ); 
-                  })}
-                  </div>
-              </div>
-            ) 
-          : (<div>Карт нет</div>)}
-
+    return (
+      <div className="board_container">
+        <h1 className="board_title"><span>Игровой стол</span></h1>
+        <div className="first_row">
+          <img className={users.length === 3 && users[2].id === userQueue ? "logo_name selected_logo" : "logo_name"} alt="profile logo" src={users.length === 3 ? users[2].avatarId : ''} />
+          <span>{users.length === 3 ? users[2].nickname : ''}</span>
         </div>
+        <div className="second_row">
+          <div className="col_first">
+            <img className={users.length === 3 && users[1].id === userQueue ? "logo_name selected_logo" : "logo_name"} alt="profile logo" src={users.length === 3 ? users[1].avatarId : ''} />
+            <span>{users.length === 3 ? users[1].nickname : ''}</span>
           </div>
-        )
-      }
+          <div className="col_second">
+            <div>Козырь
+            <img src={this.state.board != null ? getCardSymbol(this.state.board.trumpCard) : ''} alt="suit-symbol" style={{ height: 40, margin: '0 0 0 30px', transform: "translate(-50%, -50%)" }} />
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {board && board.cardsStack && board.cardsStack.map((cardId, index) => {
+                let card = this.getCardById(cardId.cardId);
+                return (
+                  <div key={cardId.cardId}>
+                    <Card cardId={card.id} cardSuit={card.cardSuit} cardType={card.cardType} front={true} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="col_third">
+            <img className={users.length === 3 && users[0].id === userQueue ? "logo_name selected_logo" : "logo_name"} alt="profile logo" src={users.length > 0 ? users[0].avatarId : ''} />
+            <span>{users.length > 0 ? users[0].nickname : ''}</span>
+          </div>
+        </div>
+        <div className="therd_row">
+          <img className={user != null && user.id === userQueue ? "logo_name selected_logo" : "logo_name"} alt="profile logo" src={user != null ? user.avatarId : ''} />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <div className='card_block' style={{ display: "flex", justifyContent: "center" }}>
+              {currentCards && currentCards.map((card, index) => {
+                return (
+                  <div onClick={(e) => this.selectCard(e, card)} className="animated slideInDown" key={index}>
+                    <Card cardId={card.id} cardSuit={card.cardSuit} cardType={card.cardType} front={true}
+                      isSelected={this.state.selectedCard != null && this.state.selectedCard.id === card.id} />
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {penki && penki.map((card, index) => {
+                return (
+                  <div key={card.id}>
+                    <Card cardId={card.id} cardSuit={card.cardSuit} cardType={card.cardType} front={false} />
+                  </div>
+                );
+              })}
+            </div>
+            <div>
+              <button className='action_button' id={actions[0]} onClick={this.pushCard.bind(this)}>Положить карту</button>
+              <button className='action_button' id={actions[1]} onClick={this.getCard.bind(this)}>Взять карту</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default Board;

@@ -29,6 +29,10 @@
     font-family: fantasy;
 }
 
+.action_button:hover{
+    color: navy;
+}
+
 table {
     margin: 20px;
     background-color: ghostwhite;

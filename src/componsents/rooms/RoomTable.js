@@ -33,7 +33,6 @@ class RoomTable extends Component {
 
   renderTableData() {
     const rooms = this.state.listRooms;
-    console.log("rooms: ", rooms);
     if (rooms) {
       const currentId = this.state.roomId;
       return rooms.map((room, index) => {
@@ -73,7 +72,7 @@ class RoomTable extends Component {
             {this.renderTableData()}
           </tbody>
         </table>
-        <button className="action_button" onClick={this.handleSubmit}>Начать игру</button>
+        <button className="action_button" onClick={this.handleSubmit}>Присоединиться к столу</button>
         <a className="action_button" href="/createRoom">Создать свою комнату</a>
       </div>
     )

@@ -1,0 +1,75 @@
+.create_container{
+    margin: 20px 10% 0 10%;
+    width: 80%;
+}
+
+.create_header{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 190%;
+    text-align: center;
+    margin: 2%;
+}
+
+.create_form{
+    margin: 0 25% 0 25%;
+    padding: 2%;
+    border: 5px solid #7a1b1b;
+    border-radius: 30px;
+}
+
+.row_form{
+    display: flex;
+}
+
+.select_lable{
+    border: 4px solid #251488;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 140%;
+    text-align: center;
+    margin: 2%;
+    padding: 2%;
+    height: 50px;
+}
+
+.column_form{
+    /* border: 4px solid #cf27b9; */
+    margin: 2px;
+    width: 30%;
+}
+
+.form_select{
+    background-color: dodgerblue;
+    margin: 3%;
+    padding: 4%;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 120%;
+    color: #fff0ce;
+    text-align: center;
+}
+
+.form_select > option{
+    background-color: grey;
+}
+
+.form_number{
+    border: 1px solid #251488;
+    margin: 3%;
+    padding: 4%;
+}
+
+.form_number:focus{
+    border: 3px solid #4b3d99;
+    margin: 3%;
+    padding: 4%;
+}
+
+.form_button{
+    background-color: dodgerblue;
+    color: #cff1ea;
+    border: 3px solid #000000;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 15px;
+    height: 40px;
+    font-family: fantasy;
+}

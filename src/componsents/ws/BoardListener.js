@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import SockJS from "sockjs-client"
 import Stomp from "stomp-websocket";
 import UserService from "../auth/UserService";
+import {backendUrl} from '../constants/Constants';
 
 let stompClient = null;
 
@@ -17,7 +18,9 @@ class BoardListener extends Component{
 
     async connect() {
         let user = UserService.getAuthUser();
-        var socket = new SockJS('http://localhost:8080/prikup-room');
+        const url = backendUrl + "/prikup-room";
+        console.log("WS BOARD URL: ", url);
+        var socket = new SockJS(url);
 
         const redirect = this.handleRedirect;
 

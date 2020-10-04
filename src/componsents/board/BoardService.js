@@ -1,18 +1,21 @@
 import axios from 'axios';
 import https from 'https';
-import {getToken} from "../FirebaseConfig"
+import {getToken} from "../FirebaseConfig";
+import {backendUrl} from '../constants/Constants';
 
 class BoardService {
 
     async sendAction(action){
         let respStatus = null;
         const token = await getToken();
+        const url = backendUrl + "/api/action";
+        console.log("ACTION URL: ", url);
         if(token !== null && action !== null){
             const authToken = 'Bearer ' + token;
-            const agent = new https.Agent({  
+            const agent = new https.Agent({
                 rejectUnauthorized: false
             });
-            const response = await axios.post(`http://localhost:8080/action`, JSON.stringify(action),
+            const response = await axios.post(url, JSON.stringify(action),
             { 
                 headers: { 
                     Authorization: authToken,
